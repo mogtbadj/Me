@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>مراجعة أكواد الهدايا</title>
+<style>
+body { font-family: Arial; background: #111; color: #fff; padding: 20px; }
+p { margin: 10px 0; }
+</style>
+</head>
+<body>
+<h1>📋 مراجعة الأكواد الموزعة</h1>
+<div id="allCodes"></div>
+
+<script>
+let display = "";
+for(let i=0; i<localStorage.length; i++){
+  const key = localStorage.key(i);
+  const codes = JSON.parse(localStorage.getItem(key));
+  display += `<p><strong>${key}:</strong> ${codes.join(", ")}</p>`;
+}
+document.getElementById("allCodes").innerHTML = display;
+</script>
+</body>
+</html>
