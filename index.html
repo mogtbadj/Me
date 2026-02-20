@@ -1,52 +1,33 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ميديا سنتر - أكواد الهدايا</title>
-<style>
-body { background: #000; color: #fff; font-family: Arial; text-align: center; margin-top: 80px; }
-button { padding: 10px 20px; background: gold; border: none; border-radius: 8px; cursor: pointer; }
-input { padding: 10px; border-radius: 8px; border: none; }
-#codeBox { margin-top: 20px; font-size: 22px; color: #0f0; }
-#dailyInfo { margin-top: 10px; color: #ff4444; }
-</style>
-</head>
-<body>
-
-<h1>🎬 ميديا سنتر</h1>
-<p>5 أكواد فقط يومياً لكل شخص</p>
-
-<input type="text" id="name" placeholder="اكتب اسمك">
-<br><br>
-<button onclick="getCode()">استلم كودك</button>
-
-<div id="codeBox"></div>
-<div id="dailyInfo"></div>
-
 <script>
-function getCode() {
+async function getCode() {
   const name = document.getElementById("name").value.trim();
   if(!name) { alert("اكتب اسمك"); return; }
 
+  // جلب JSON
+  let response = await fetch('codes.json');
+  let data = await response.json();
+
   const today = new Date().toISOString().split('T')[0];
-  const key = name + "_" + today;
+  let user = data.find(u => u.name === name && u.date === today);
 
-  let codes = JSON.parse(localStorage.getItem(key) || "[]");
+  if(!user){
+    user = { name: name, date: today, codes: [] };
+    data.push(user);
+  }
 
-  if(codes.length >= 5){
+  if(user.codes.length >= 5){
     document.getElementById("codeBox").innerText = "❌ انتهت أكوادك اليوم";
-    document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة اليوم: ${codes.length}`;
+    document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة اليوم: ${user.codes.length}`;
     return;
   }
 
   const randomCode = "MSC-" + Math.floor(1000 + Math.random() * 9000);
-  codes.push(randomCode);
-  localStorage.setItem(key, JSON.stringify(codes));
+  user.codes.push(randomCode);
 
+  // هنا حنكتب الكود مرة ثانية في JSON على السيرفر  
+  // ⚠️ fetch لا يمكنه تعديل الملفات مباشرة، محتاج سيرفر صغير (Node.js مثلا)
+  
   document.getElementById("codeBox").innerText = "🎁 كودك: " + randomCode;
-  document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة فعلياً اليوم: ${codes.length}`;
+  document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة اليوم: ${user.codes.length}`;
 }
 </script>
-</body>
-</html>
