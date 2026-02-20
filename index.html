@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ميديا سنتر - أكواد الهدايا</title>
+<style>
+body { background: #000; color: #fff; font-family: Arial; text-align: center; margin-top: 80px; }
+button { padding: 10px 20px; background: gold; border: none; border-radius: 8px; cursor: pointer; }
+input { padding: 10px; border-radius: 8px; border: none; }
+#codeBox { margin-top: 20px; font-size: 22px; color: #0f0; }
+#dailyInfo { margin-top: 10px; color: #ff4444; }
+</style>
+</head>
+<body>
+
+<h1>🎬 ميديا سنتر</h1>
+<p>5 أكواد فقط يومياً</p>
+
+<input type="text" id="name" placeholder="اكتب اسمك">
+<br><br>
+<button onclick="getCode()">استلم كودك</button>
+
+<div id="codeBox"></div>
+<div id="dailyInfo"></div>
+
+<script>
+function getCode() {
+  const name = document.getElementById("name").value;
+  if(!name) { alert("اكتب اسمك"); return; }
+
+  const today = new Date().toISOString().split('T')[0];
+  const key = name + "_" + today;
+
+  let codes = JSON.parse(localStorage.getItem(key) || "[]");
+
+  if(codes.length >= 5){
+    document.getElementById("codeBox").innerText = "❌ انتهت أكوادك اليوم";
+    return;
+  }
+
+  const randomCode = "MSC-" + Math.floor(1000 + Math.random() * 9000);
+  codes.push(randomCode);
+  localStorage.setItem(key, JSON.stringify(codes));
+
+  document.getElementById("codeBox").innerText = "🎁 كودك: " + randomCode;
+  document.getElementById("dailyInfo").innerText = `📊 استلمت ${codes.length} من 5 أكواد اليوم`;
+}
+</script>
+</body>
+  </html>
