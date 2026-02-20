@@ -15,7 +15,7 @@ input { padding: 10px; border-radius: 8px; border: none; }
 <body>
 
 <h1>🎬 ميديا سنتر</h1>
-<p>5 أكواد فقط يومياً</p>
+<p>5 أكواد فقط يومياً لكل شخص</p>
 
 <input type="text" id="name" placeholder="اكتب اسمك">
 <br><br>
@@ -26,7 +26,7 @@ input { padding: 10px; border-radius: 8px; border: none; }
 
 <script>
 function getCode() {
-  const name = document.getElementById("name").value;
+  const name = document.getElementById("name").value.trim();
   if(!name) { alert("اكتب اسمك"); return; }
 
   const today = new Date().toISOString().split('T')[0];
@@ -36,6 +36,7 @@ function getCode() {
 
   if(codes.length >= 5){
     document.getElementById("codeBox").innerText = "❌ انتهت أكوادك اليوم";
+    document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة اليوم: ${codes.length}`;
     return;
   }
 
@@ -44,8 +45,8 @@ function getCode() {
   localStorage.setItem(key, JSON.stringify(codes));
 
   document.getElementById("codeBox").innerText = "🎁 كودك: " + randomCode;
-  document.getElementById("dailyInfo").innerText = `📊 استلمت ${codes.length} من 5 أكواد اليوم`;
+  document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة فعلياً اليوم: ${codes.length}`;
 }
 </script>
 </body>
-  </html>
+</html>
