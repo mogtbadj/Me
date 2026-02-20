@@ -25,29 +25,5 @@ input { padding: 10px; border-radius: 8px; border: none; }
 <div id="dailyInfo"></div>
 
 <script>
-// استخدام localStorage لتخزين الأكواد
 function getCode() {
-  const name = document.getElementById("name").value.trim();
-  if(!name) { alert("اكتب اسمك"); return; }
-
-  const today = new Date().toISOString().split('T')[0];
-  const key = name + "_" + today;
-
-  let codes = JSON.parse(localStorage.getItem(key) || "[]");
-
-  if(codes.length >= 5){
-    document.getElementById("codeBox").innerText = "❌ انتهت أكوادك اليوم";
-    document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة اليوم: ${codes.length}`;
-    return;
-  }
-
-  const randomCode = "MSC-" + Math.floor(1000 + Math.random() * 9000);
-  codes.push(randomCode);
-  localStorage.setItem(key, JSON.stringify(codes));
-
-  document.getElementById("codeBox").innerText = "🎁 كودك: " + randomCode;
-  document.getElementById("dailyInfo").innerText = `📊 عدد الأكواد الموزعة فعلياً اليوم: ${codes.length}`;
-}
-</script>
-</body>
-</html>
+  const name = document.getElementById("name
