@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تحقق من الكود</title>
+</head>
+<body>
+
+<h2>تحقق من الكود</h2>
+<input type="text" id="codeInput" placeholder="ادخل الكود">
+<button onclick="verify()">تحقق</button>
+<h3 id="message"></h3>
+
+<script>
+function verify() {
+  const codeValue = document.getElementById("codeInput").value;
+  if(!codeValue) return;
+
+  let found = false;
+
+  for(let i=0; i<localStorage.length; i++){
+    const key = localStorage.key(i);
+    const codes = JSON.parse(localStorage.getItem(key));
+    if(codes.includes(codeValue)){
+      found = true;
+      alert("✅ الكود صالح");
+      return;
+    }
+  }
+
+  if(!found) alert("❌ الكود غير موجود");
+}
+</script>
+</body>
+</html>
